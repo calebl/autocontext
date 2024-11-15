@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["caleb.lenoir@hey.com"]
 
   spec.summary       = "Automatically generate context files for Rails applications"
-  spec.description   = "A Ruby gem that generates a context file containing information about your Rails application's models, controllers, and environment"
+  spec.description   = "A Ruby gem that generates a context file containing information about your Rails application's models, controllers, and environment. This context can then be used in conversations with LLMs."
   spec.homepage      = "https://github.com/calebl/autocontext"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.6.0")
