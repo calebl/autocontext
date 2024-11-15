@@ -1,6 +1,7 @@
 # Autocontext
 
-Autocontext is a Ruby gem that automatically generates a context file containing information about your Rails application's models, controllers, and environment.
+Autocontext is a Ruby gem that automatically generates a context file containing information about your Rails application's models, controllers, and environment. This context can then be used in conversations with LLMs
+to help them understand your application.
 
 ## Installation
 
@@ -34,11 +35,15 @@ This will create a `.autocontext` file in your Rails application's root director
   - File paths
   - Associations
 
+
+## Future Work
+- For larger projects, generate the context around specific controllers or models instead of the entire application.
+- Include view code in the context.
+- Add more details to controller descriptions.
+
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`.
+Checkout the repo and run `bundle install`.
 
 ## Contributing
 
