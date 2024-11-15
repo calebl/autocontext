@@ -6,6 +6,9 @@ module Autocontext
 
   class Generator
     def self.generate
+      # Check if Rails is defined
+      raise "Rails is not defined. Please ensure you are running this within a Rails application." unless defined?(Rails)
+
       puts "Generating autocontext file"
 
       Rails.application.eager_load!
@@ -20,21 +23,36 @@ module Autocontext
         file.puts "Ruby version: #{ruby_version}"
         file.puts "Rails version: #{rails_version}"
         file.puts ""
-        file.puts "Controllers:"
-        file.puts " - #{ApplicationController.descendants.map(&:name).join(", ")}"
+        self.generate_controllers(file)
         file.puts ""
         file.puts "Models:"
         ApplicationRecord.descendants.each do |model|
           file.puts "  #{model.name}:"
+          file.puts "    superclass: #{model.superclass.name}"
+          file.puts "    database: #{model.connection.current_database}"
           file.puts "    table_name: #{model.table_name}"
           file.puts "    relative path: app/models/#{model.name.underscore}.rb"
 
-          file.puts "    associations:"
-          model.reflect_on_all_associations.each do |association|
-            file.puts "    - #{association.macro} #{association.name} #{association.foreign_key} #{association.polymorphic? ? "polymorphic" : ""} (#{association.class_name})"
-          end
+          self.generate_associations(model, file)
           file.puts ""
+
+        rescue => e
+          puts "Error generating autocontext for #{model.name}: #{e.message}"
         end
+      end
+    end
+
+    def self.generate_controllers(file)
+      file.puts "Controllers:"
+      file.puts " - #{ApplicationController.descendants.map(&:name).join(", ")}"
+    end
+
+    def self.generate_associations(model, file)
+      file.puts "    associations:"
+      model.reflect_on_all_associations.each do |association|
+        file.puts "    - #{association.macro} #{association.name} #{association.foreign_key} #{association.polymorphic? ? "polymorphic" : ""} (#{association.class_name})"
+      rescue => e
+        puts "Error generating associations for #{model.name}: #{e.message}"
       end
     end
   end
