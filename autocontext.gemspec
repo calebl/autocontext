@@ -15,8 +15,8 @@ Gem::Specification.new do |spec|
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
   spec.files         = Dir.glob("{bin,lib}/**/*") + %w(README.md MIT-LICENSE)
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir        = "bin"
+  spec.executables   = ["autocontext"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "rails", ">= 6.0"

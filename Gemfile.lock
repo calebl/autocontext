@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    autocontext (0.1.0)
+    autocontext (0.1.1)
       rails (>= 6.0)
 
 GEM
@@ -199,4 +199,4 @@ DEPENDENCIES
   autocontext!
 
 BUNDLED WITH
-   2.5.16
+   2.5.23

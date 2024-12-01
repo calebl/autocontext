@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "autocontext"
+
+path = ARGV[0] || "."
+Autocontext::Generator.generate(path)

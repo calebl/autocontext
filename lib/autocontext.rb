@@ -5,12 +5,33 @@ module Autocontext
   class Error < StandardError; end
 
   class Generator
-    def self.generate
-      # Check if Rails is defined
-      raise "Rails is not defined. Please ensure you are running this within a Rails application." unless defined?(Rails)
+    def self.generate(path = ".")
+      original_dir = Dir.pwd
+      Dir.chdir(path)
 
+      begin
+        if File.exist?('config/application.rb')
+          # Use the project's bundle environment
+          require 'bundler'
+          Bundler.with_unbundled_env do
+            system("bundle exec ruby -r './config/application.rb' -e 'require \"autocontext\"; Autocontext::Generator.generate_rails_context'")
+          end
+        else
+          puts "Error: No Rails application found in #{path}"
+          puts "Please specify a valid Rails application path"
+          exit 1
+        end
+      ensure
+        Dir.chdir(original_dir)
+      end
+    end
+
+    def self.generate_rails_context
       puts "Generating autocontext file"
 
+      # Initialize the Rails application first
+      Rails.application.initialize!
+      # Then eager load
       Rails.application.eager_load!
 
       gemfile_content = File.read(Rails.root.join('Gemfile'))
